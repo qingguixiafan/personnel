@@ -137,5 +137,6 @@
     <include refid="Base_Column_List"/>
     from department
     where parent_id = #{departmentId}
+    and is_delete = 0
   </select>
 </mapper>

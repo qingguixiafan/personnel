@@ -128,6 +128,19 @@ public class UserServiceImpl implements IUserService {
     }
 
 
+    public ServerResponse updateInfoByHost(User user) {
+        User updateUser = new User();
+        updateUser.setId(user.getId());
+        updateUser.setRole(user.getRole());
+        updateUser.setSalary(user.getSalary());
+        int count = userMapper.updateByPrimaryKeySelective(updateUser);
+        if (count>0){
+            return ServerResponse.createBySuccess("修改员工信息成功");
+        }
+        return ServerResponse.createByErrorMessage("修改员工信息失败");
+    }
+
+
 
     // 新写的递归查询所有用户的方法
     private List<User> getAllByRecursion(List<User> userList, User user, Integer sex, Integer minSalary){

@@ -9,7 +9,6 @@ function isLogin(){
         contentType: 'application/x-www-form-urlencoded',
         success: function(data){
             // todo: 判断用户登录是否成功，不成功就重新登陆
-            console.log("发起第一次请求");
             if (data.status==0){
                 // 将数据保存起来，等待页面加载完成，然后将数据绑定到dom
                 // 上面的想法暂时实现不了，等页面加载完成后直接重新发起请求拿数据好了，菜
@@ -31,7 +30,6 @@ function bindData() {
         dataType: 'json',
         contentType: 'application/x-www-form-urlencoded',
         success: function(data){
-            console.log("发起第二次请求");
             // todo: 判断用户登录是否成功，不成功就重新登陆
             if (data.status==0){
                 document.getElementById("name").value = data.data.name;
@@ -41,26 +39,6 @@ function bindData() {
 
             } else {
                 window.location.href='http://localhost:8686/personnel/pages/login.html';
-            }
-        },
-        error: function(jqXHR){
-            console.log(jqXHR);
-            window.location.href="http://localhost:8686/personnel/pages/error.html";
-        },
-    })
-}
-
-function logout() {
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:8686/personnel/user/logout.do',
-        dataType: 'json',
-        contentType: 'application/x-www-form-urlencoded',
-        success: function(data){
-            if (data.status==0){
-                window.location.href="http://localhost:8686/personnel/pages/login.html";
-            } else {
-                window.location.href="http://localhost:8686/personnel/pages/error.html";
             }
         },
         error: function(jqXHR){
@@ -106,7 +84,6 @@ function addHostButton(){
         dataType: 'json',
         contentType: 'application/x-www-form-urlencoded',
         success: function(data){
-            console.log("发起第三次请求");
             if (data.data.role==1) {
                 //console.log("addHostButton method in run");
                 var h2 = document.createElement("h2");
@@ -128,4 +105,3 @@ function addHostButton(){
 function goManagePage(){
     window.location.href="http://localhost:8686/personnel/pages/manage.html";
 }
-

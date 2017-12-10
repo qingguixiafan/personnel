@@ -68,4 +68,19 @@ public class UserManagerController {
             return ServerResponse.createByErrorMessage("无权限操作");
         }
     }
+
+    @RequestMapping(value = "update.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse updateInfoByHost(HttpSession session, User user) {
+        User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
+        if (currentUser == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录管理员");
+        }
+        if (iUserService.checkAdminRole(currentUser).isSuccess()) {
+            //填充我们的业务逻辑
+            return iUserService.updateInfoByHost(user);
+        } else {
+            return ServerResponse.createByErrorMessage("无权限操作");
+        }
+    }
 }

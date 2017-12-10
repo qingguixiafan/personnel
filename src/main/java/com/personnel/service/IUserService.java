@@ -29,4 +29,6 @@ public interface IUserService {
     ServerResponse<PageInfo> getAll(User user, int pageNum, int pageSize);
 
     ServerResponse cancel(User user);
+
+    ServerResponse updateInfoByHost(User user);
 }

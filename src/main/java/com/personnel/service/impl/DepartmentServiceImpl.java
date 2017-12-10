@@ -54,7 +54,7 @@ public class DepartmentServiceImpl implements IDepartmentService {
             return ServerResponse.createByErrorMessage("新增的部门管理员还不是管理员身份");
         }
 
-        int count = departmentMapper.insert(department);
+        int count = departmentMapper.insertSelective(department);
         if (count>0) {
             return ServerResponse.createBySuccess("新增部门成功", department);
         } else {

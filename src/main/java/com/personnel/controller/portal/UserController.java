@@ -85,6 +85,8 @@ public class UserController {
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "未登录,需要强制登录status=10");
         }
+        // 移除session
+        session.removeAttribute(Const.CURRENT_USER);
         return iUserService.cancel(user);
     }
 }
