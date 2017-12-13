@@ -114,6 +114,9 @@ public class UserServiceImpl implements IUserService {
         int departmentId = departmentMapper.selectDepartmentIdByHostId(user.getId());
         PageHelper.startPage(pageNum, pageSize);
         List<User> users = userMapper.selectByDepartmentId(departmentId);
+        for (User userItem : users) {
+            userItem.setPassword(org.apache.commons.lang3.StringUtils.EMPTY);
+        }
         PageInfo resultList = new PageInfo(users);
         return ServerResponse.createBySuccess(resultList);
     }
@@ -144,11 +147,13 @@ public class UserServiceImpl implements IUserService {
 
     // 新写的递归查询所有用户的方法
     private List<User> getAllByRecursion(List<User> userList, User user, Integer sex, Integer minSalary){
-        // 这里可能会有bug，如果一个人的身份是管理员，但并没有一个部门的主管是他，
+        // 这里可能会有bug，如果一个人的身份是管理员，但他是光杆司令,
+        // 这种情况必须通过前端的业务逻辑来保证不会出现
         // departmentId可能会是0，这是不允许的，待测试
         int departmentId = departmentMapper.selectDepartmentIdByHostId(user.getId());
         List<User> users = userMapper.selectByDepartmentId(departmentId);
         for (User currentUser : users) {
+            // 这里也可能会报空指针异常，也必须要由前端的业务逻辑来保证不会出现用户性别或工资为空
             if (currentUser.getSex()==sex && currentUser.getSalary()>=minSalary){
                 currentUser.setPassword(org.apache.commons.lang3.StringUtils.EMPTY);
                 userList.add(currentUser);

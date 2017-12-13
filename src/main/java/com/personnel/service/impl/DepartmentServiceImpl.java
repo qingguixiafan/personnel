@@ -11,8 +11,6 @@ import com.personnel.pojo.Department;
 import com.personnel.pojo.User;
 import com.personnel.service.IDepartmentService;
 import com.personnel.vo.DepartmentDetailVo;
-import com.personnel.vo.DepartmentNameAndIdVo;
-import com.sun.corba.se.spi.activation.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,22 +27,6 @@ public class DepartmentServiceImpl implements IDepartmentService {
 
     @Autowired
     private UserMapper userMapper;
-
-    public ServerResponse<List<DepartmentNameAndIdVo>> getDepartmentNames() {
-        List<Department> Departments = departmentMapper.getDepartments();
-        if (Departments.size()<=0) {
-            return ServerResponse.createByErrorMessage("没有任何部门");
-        } else {
-            List<DepartmentNameAndIdVo> DepartmentNameAndId = Lists.newArrayList();
-            for (Department department : Departments) {
-                DepartmentNameAndIdVo depar = new DepartmentNameAndIdVo();
-                depar.setId(department.getId());
-                depar.setName(department.getName());
-                DepartmentNameAndId.add(depar);
-            }
-            return ServerResponse.createBySuccess(DepartmentNameAndId);
-        }
-    }
 
     public ServerResponse<Department> add_department(Department department, Integer hostId) {
         int departmentId = departmentMapper.selectDepartmentIdByHostId(hostId);
@@ -109,7 +91,6 @@ public class DepartmentServiceImpl implements IDepartmentService {
         updateDepartment.setName(department.getName());
         updateDepartment.setHost(department.getHost());
         // 判断下是否修改了部门主管，然后修改部门主管的角色,新主管的部门id
-        System.out.println(null!=department.getHost() && !"".equals(department.getHost()));
         if (null!=department.getHost() && !"".equals(department.getHost())) {
             User oldHost = new User();
             oldHost.setId(lowerHost);

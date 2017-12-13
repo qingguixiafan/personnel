@@ -23,6 +23,7 @@ function isLogin(){
     })
 }
 
+// 可以将addHostButton方法中的内容写到这里来
 function bindData() {
     $.ajax({
         type: 'GET',
@@ -39,6 +40,15 @@ function bindData() {
 
             } else {
                 window.location.href='http://localhost:8686/personnel/pages/login.html';
+            }
+            if (data.data.role==1) {
+                var h2 = document.createElement("h2");
+                h2.innerHTML = "您可以点击下方按钮去管理您的部门";
+                document.body.appendChild(h2);
+                var but = document.createElement("button");
+                but.setAttribute("onclick", "goManagePage()");
+                but.innerHTML = "点我跳转";
+                document.body.appendChild(but);
             }
         },
         error: function(jqXHR){
@@ -67,32 +77,6 @@ function onSubmit() {
                 alert("修改信息成功");
             } else {
                 alert("更新信息失败。。");
-            }
-        },
-        error: function(jqXHR){
-            console.log(jqXHR);
-            window.location.href="http://localhost:8686/personnel/pages/error.html";
-        },
-    })
-}
-
-function addHostButton(){
-    console.log("addHostButton method is run");
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:8686/personnel/user/get_user_info.do',
-        dataType: 'json',
-        contentType: 'application/x-www-form-urlencoded',
-        success: function(data){
-            if (data.data.role==1) {
-                //console.log("addHostButton method in run");
-                var h2 = document.createElement("h2");
-                h2.innerHTML = "您可以点击下方按钮去管理您的部门";
-                document.body.appendChild(h2);
-                var but = document.createElement("button");
-                but.setAttribute("onclick", "goManagePage()");
-                but.innerHTML = "点我跳转";
-                document.body.appendChild(but);
             }
         },
         error: function(jqXHR){
